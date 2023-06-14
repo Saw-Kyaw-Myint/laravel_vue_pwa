@@ -1,10 +1,11 @@
 <script setup>
-import { ref, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { ref, reactive, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import axios from "axios";
 
 const router = useRouter();
 const errors = ref(null);
+const route = useRoute();
 
 const postForm = reactive({
   title: "",
@@ -12,14 +13,18 @@ const postForm = reactive({
 });
 
 // store Post
-const storePost = async () => {
+const updatePost = async () => {
   const config = {
     headers: {
       "content-type": "multipart/form-data",
     },
   };
   await axios
-    .post("http://127.0.0.1:8000/api/post", postForm, config)
+    .post(
+      `http://127.0.0.1:8000/api/post/update/${route.params.id}`,
+      postForm,
+      config
+    )
     .then((response) => {
       console.log(response.data);
       router.push({ name: "home" });
@@ -29,16 +34,24 @@ const storePost = async () => {
       console.log(error.response.data.errors);
     });
 };
+onMounted(async () => {
+  axios
+    .get(`http://127.0.0.1:8000/api/post/edit/${route.params.id}`)
+    .then((response) => {
+      postForm.title = response.data.title;
+      postForm.description = response.data.description;
+    });
+});
 </script>
 <template>
   <!-- component -->
   <div class="heading text-center font-bold text-2xl m-5 text-gray-800">
-    New Post
+    Update Post
   </div>
   <div
     class="editor mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 shadow-lg max-w-2xl"
   >
-    <form @submit.prevent="storePost">
+    <form @submit.prevent="updatePost">
       <input
         class="title w-full bg-gray-100 border border-gray-300 p-2 mb-4 outline-none"
         spellcheck="false"
@@ -122,7 +135,7 @@ const storePost = async () => {
         <button
           class="btn border border-indigo-500 p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-2 bg-indigo-500"
         >
-          Post
+          Update Post
         </button>
       </div>
     </form>

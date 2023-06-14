@@ -1,6 +1,6 @@
 <script setup>
-import HomeView from "./views/Post/HomeView.vue";
+import { RouterView } from "vue-router";
 </script>
 <template>
-  <HomeView />
+  <RouterView></RouterView>
 </template>
