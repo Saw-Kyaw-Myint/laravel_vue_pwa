@@ -21,9 +21,6 @@ if (process.env.NODE_ENV === "production") {
     },
     updated() {
       window.location.reload(true);
-      document.dispatchEvent(
-        new CustomEvent("serviceWorkerUpdateEvent", { detail: registration })
-      );
     },
     offline() {
       alert("No internet connection found. App is running in offline mode.");

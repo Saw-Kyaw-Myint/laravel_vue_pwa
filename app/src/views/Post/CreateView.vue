@@ -2,6 +2,7 @@
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const router = useRouter();
 const errors = ref(null);
@@ -30,7 +31,22 @@ const storePost = async () => {
         errors.value = error.response.data.errors;
       });
   } catch (error) {
-    alert(error);
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+
+    Toast.fire({
+      icon: "warning",
+      title: "You can't created because you are offline",
+    });
   }
 };
 </script>

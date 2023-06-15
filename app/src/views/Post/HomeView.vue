@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const posts = ref(JSON.parse(localStorage.getItem("posts")) || []);
 
@@ -12,7 +13,7 @@ const getPosts = async () => {
     });
   } catch (error) {
     if (error) {
-      alert("Your are offline");
+      Swal.fire("The Internet?", "Please connect internet", "question");
     }
   }
 };
@@ -27,7 +28,7 @@ const postDelete = async (id) => {
         }
       });
   } catch (error) {
-    alert("Your are offline");
+    alert("Your can't deletet because your are offline");
   }
 };
 
