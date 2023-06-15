@@ -2,22 +2,33 @@
 import { onMounted, ref } from "vue";
 import axios from "axios";
 
-const posts = ref([]);
+const posts = ref(JSON.parse(localStorage.getItem("posts")) || []);
 
 const getPosts = async () => {
-  await axios.get(`http://127.0.0.1:8000/api/posts`).then((response) => {
-    posts.value = response.data;
-  });
+  try {
+    await axios.get(`http://127.0.0.1:8000/api/posts`).then((response) => {
+      localStorage.setItem("posts", JSON.stringify(response.data));
+      posts.value = JSON.parse(localStorage.getItem("posts"));
+    });
+  } catch (error) {
+    if (error) {
+      alert("Your are offline");
+    }
+  }
 };
 
 const postDelete = async (id) => {
-  await axios
-    .delete(`http://127.0.0.1:8000/api/post/${id}`)
-    .then((response) => {
-      if (response.data.status == "success") {
-        getPosts();
-      }
-    });
+  try {
+    await axios
+      .delete(`http://127.0.0.1:8000/api/post/${id}`)
+      .then((response) => {
+        if (response.data.status == "success") {
+          getPosts();
+        }
+      });
+  } catch (error) {
+    alert("Your are offline");
+  }
 };
 
 onMounted(async () => {

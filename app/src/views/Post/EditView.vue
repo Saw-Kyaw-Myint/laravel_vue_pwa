@@ -19,28 +19,39 @@ const updatePost = async () => {
       "content-type": "multipart/form-data",
     },
   };
-  await axios
-    .post(
-      `http://127.0.0.1:8000/api/post/update/${route.params.id}`,
-      postForm,
-      config
-    )
-    .then((response) => {
-      if (response.data.status == "success") {
-        router.push({ name: "home" });
-      }
-    })
-    .catch(function (error) {
-      errors.value = error.response.data.errors;
-    });
+  try {
+    await axios
+      .post(
+        `http://127.0.0.1:8000/api/post/update/${route.params.id}`,
+        postForm,
+        config
+      )
+      .then((response) => {
+        if (response.data.status == "success") {
+          router.push({ name: "home" });
+        }
+      })
+      .catch(function (error) {
+        errors.value = error.response.data.errors;
+      });
+  } catch (error) {
+    alert("Your are offline");
+  }
 };
 onMounted(async () => {
-  axios
-    .get(`http://127.0.0.1:8000/api/post/edit/${route.params.id}`)
-    .then((response) => {
-      postForm.title = response.data.title;
-      postForm.description = response.data.description;
-    });
+  try {
+    await axios
+      .get(`http://127.0.0.1:8000/api/post/edit/${route.params.id}`)
+      .then((response) => {
+        postForm.title = response.data.title;
+        postForm.description = response.data.description;
+      });
+  } catch (error) {
+    const posts = JSON.parse(localStorage.getItem("posts"));
+    const post = posts.find((post) => post.id == route.params.id);
+    postForm.title = post.title;
+    postForm.description = post.description;
+  }
 });
 </script>
 <template>

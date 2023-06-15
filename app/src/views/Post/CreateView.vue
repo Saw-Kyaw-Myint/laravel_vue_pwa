@@ -18,16 +18,20 @@ const storePost = async () => {
       "content-type": "multipart/form-data",
     },
   };
-  await axios
-    .post("http://127.0.0.1:8000/api/post", postForm, config)
-    .then((response) => {
-      if (response.data.status == "success") {
-        router.push({ name: "home" });
-      }
-    })
-    .catch(function (error) {
-      errors.value = error.response.data.errors;
-    });
+  try {
+    await axios
+      .post("http://127.0.0.1:8000/api/post", postForm, config)
+      .then((response) => {
+        if (response.data.status == "success") {
+          router.push({ name: "home" });
+        }
+      })
+      .catch(function (error) {
+        errors.value = error.response.data.errors;
+      });
+  } catch (error) {
+    alert(error);
+  }
 };
 </script>
 <template>
