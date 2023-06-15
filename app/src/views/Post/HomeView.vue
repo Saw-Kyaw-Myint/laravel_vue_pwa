@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import axios from "axios";
-// import { useRouter } from "vue-router";s
 
 const posts = ref([]);
 
@@ -15,8 +14,9 @@ const postDelete = async (id) => {
   await axios
     .delete(`http://127.0.0.1:8000/api/post/${id}`)
     .then((response) => {
-      console.log(response.data);
-      getPosts();
+      if (response.data.status == "success") {
+        getPosts();
+      }
     });
 };
 

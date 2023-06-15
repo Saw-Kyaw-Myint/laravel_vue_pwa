@@ -21,12 +21,12 @@ const storePost = async () => {
   await axios
     .post("http://127.0.0.1:8000/api/post", postForm, config)
     .then((response) => {
-      console.log(response.data);
-      router.push({ name: "home" });
+      if (response.data.status == "success") {
+        router.push({ name: "home" });
+      }
     })
     .catch(function (error) {
       errors.value = error.response.data.errors;
-      console.log(error.response.data.errors);
     });
 };
 </script>
@@ -39,6 +39,7 @@ const storePost = async () => {
     class="editor mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 shadow-lg max-w-2xl"
   >
     <form @submit.prevent="storePost">
+      <label for="" class="mb-2">Title</label>
       <input
         class="title w-full bg-gray-100 border border-gray-300 p-2 mb-4 outline-none"
         spellcheck="false"
@@ -46,14 +47,15 @@ const storePost = async () => {
         v-model="postForm.title"
         type="text"
       />
-      <p class="error-message">{{ errors?.title ? errors.title[0] : "" }}</p>
+      <p class="text-red-500">{{ errors?.title ? errors.title[0] : "" }}</p>
+      <label for="" class="mb-2">Description</label>
       <textarea
         class="description w-full bg-gray-100 sec p-3 h-60 border border-gray-300 outline-none"
         spellcheck="false"
         placeholder="Describe everything about this post here"
         v-model="postForm.description"
       ></textarea>
-      <p class="error-message">
+      <p class="text-red-500">
         {{ errors?.description ? errors.description[0] : "" }}
       </p>
 

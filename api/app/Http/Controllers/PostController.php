@@ -24,7 +24,8 @@ class PostController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'New post is created',
+            'status' =>'success',
+            'message' => 'New post is created successfully',
         ]);
     }
 
@@ -42,7 +43,8 @@ class PostController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Post is updated',
+            'status' =>'success',
+            'message' => 'Post is updated successfully',
         ]);
 
     }
@@ -51,7 +53,8 @@ class PostController extends Controller
     {
         Post::findOrFail($id)->delete();
         return response()->json([
-            'message' => 'post is deleted',
+            'status' => 'success',
+            'message' => 'post is deleted successfully',
         ]);
     }
 }
