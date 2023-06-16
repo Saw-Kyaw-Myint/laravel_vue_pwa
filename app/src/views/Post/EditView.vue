@@ -63,10 +63,7 @@ onMounted(async () => {
         postForm.description = response.data.description;
       });
   } catch (error) {
-    const posts = JSON.parse(localStorage.getItem("posts"));
-    const post = posts.find((post) => post.id == route.params.id);
-    postForm.title = post.title;
-    postForm.description = post.description;
+    console.log(error);
   }
 });
 </script>

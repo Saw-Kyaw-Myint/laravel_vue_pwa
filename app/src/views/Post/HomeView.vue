@@ -8,8 +8,7 @@ const posts = ref(JSON.parse(localStorage.getItem("posts")) || []);
 const getPosts = async () => {
   try {
     await axios.get(`http://127.0.0.1:8000/api/posts`).then((response) => {
-      localStorage.setItem("posts", JSON.stringify(response.data));
-      posts.value = JSON.parse(localStorage.getItem("posts"));
+      posts.value = response.data;
     });
   } catch (error) {
     if (error) {
