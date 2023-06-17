@@ -7,17 +7,17 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: () => HomeView,
+    component: HomeView,
   },
   {
     path: "/create",
     name: "create",
-    component: () => CreateView,
+    component: CreateView,
   },
   {
     path: "/edit/:id",
     name: "edit",
-    component: () => EditView,
+    component: EditView,
   },
 ];
 

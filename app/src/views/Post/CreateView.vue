@@ -14,14 +14,9 @@ const postForm = reactive({
 
 // store Post
 const storePost = async () => {
-  const config = {
-    headers: {
-      "content-type": "multipart/form-data",
-    },
-  };
   try {
     await axios
-      .post("http://127.0.0.1:8000/api/post", postForm, config)
+      .post("http://127.0.0.1:8000/api/post", postForm)
       .then((response) => {
         if (response.data.status == "success") {
           router.push({ name: "home" });
@@ -31,22 +26,24 @@ const storePost = async () => {
         errors.value = error.response.data.errors;
       });
   } catch (error) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: "top-end",
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener("mouseenter", Swal.stopTimer);
-        toast.addEventListener("mouseleave", Swal.resumeTimer);
-      },
-    });
+    if (error) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
 
-    Toast.fire({
-      icon: "warning",
-      title: "You can't created because you are offline",
-    });
+      Toast.fire({
+        icon: "warning",
+        title: "You can't created because you are offline",
+      });
+    }
   }
 };
 </script>

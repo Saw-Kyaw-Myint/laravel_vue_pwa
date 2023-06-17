@@ -15,17 +15,11 @@ const postForm = reactive({
 
 // update Post
 const updatePost = async () => {
-  const config = {
-    headers: {
-      "content-type": "multipart/form-data",
-    },
-  };
   try {
     await axios
       .post(
         `http://127.0.0.1:8000/api/post/update/${route.params.id}`,
-        postForm,
-        config
+        postForm
       )
       .then((response) => {
         if (response.data.status == "success") {
@@ -36,22 +30,24 @@ const updatePost = async () => {
         errors.value = error.response.data.errors;
       });
   } catch (error) {
-    const Toast = Swal.mixin({
-      toast: true,
-      position: "top-end",
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener("mouseenter", Swal.stopTimer);
-        toast.addEventListener("mouseleave", Swal.resumeTimer);
-      },
-    });
+    if (error) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
 
-    Toast.fire({
-      icon: "warning",
-      title: "You can't updated because you are offline",
-    });
+      Toast.fire({
+        icon: "warning",
+        title: "You can't updated because you are offline",
+      });
+    }
   }
 };
 onMounted(async () => {
@@ -77,6 +73,7 @@ onMounted(async () => {
   >
     <form @submit.prevent="updatePost">
       <label for="" class="mb-2">Title</label>
+
       <input
         class="title w-full bg-gray-100 border border-gray-300 p-2 mb-4 outline-none"
         spellcheck="false"
