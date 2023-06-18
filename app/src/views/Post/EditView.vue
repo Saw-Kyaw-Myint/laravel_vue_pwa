@@ -53,7 +53,7 @@ const updatePost = async () => {
 onMounted(async () => {
   try {
     await axios
-      .get(`http://127.0.0.1:8000/api/post/edit/${route.params.id}`)
+      .get(`http://127.0.0.1:8000/api/posts/edit/${route.params.id}`)
       .then((response) => {
         postForm.title = response.data.title;
         postForm.description = response.data.description;
