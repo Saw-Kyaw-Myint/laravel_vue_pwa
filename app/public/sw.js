@@ -1,5 +1,5 @@
 const API_CACHE_NAME = "api-cache";
-const API_URLS = ["/api/posts"];
+const API_URLS = ["/api/posts", "/api/post"];
 
 self.addEventListener("fetch", (event) => {
   const { request } = event;
