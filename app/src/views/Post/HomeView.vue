@@ -2,6 +2,7 @@
 import { onMounted, ref } from "vue";
 import axios from "axios";
 import Swal from "sweetalert2";
+import alertMessage from "@/utilities/alertMessage";
 
 const posts = ref([]);
 
@@ -23,6 +24,7 @@ const postDelete = async (id) => {
       .delete(`http://127.0.0.1:8000/api/post/${id}`)
       .then((response) => {
         if (response.data.status == "success") {
+          alertMessage("success", response.data.message);
           getPosts();
         }
       });

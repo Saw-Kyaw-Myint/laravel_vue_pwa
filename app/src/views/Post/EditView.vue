@@ -2,7 +2,7 @@
 import { ref, reactive, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import axios from "axios";
-import Swal from "sweetalert2";
+import alertMessage from "@/utilities/alertMessage";
 
 const router = useRouter();
 const errors = ref(null);
@@ -23,6 +23,7 @@ const updatePost = async () => {
       )
       .then((response) => {
         if (response.data.status == "success") {
+          alertMessage("success", response.data.message);
           router.push({ name: "home" });
         }
       })
@@ -31,25 +32,11 @@ const updatePost = async () => {
       });
   } catch (error) {
     if (error) {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener("mouseenter", Swal.stopTimer);
-          toast.addEventListener("mouseleave", Swal.resumeTimer);
-        },
-      });
-
-      Toast.fire({
-        icon: "warning",
-        title: "You can't updated because you are offline",
-      });
+      alertMessage("warning", "You can't updated because you are offline");
     }
   }
 };
+
 onMounted(async () => {
   try {
     await axios
