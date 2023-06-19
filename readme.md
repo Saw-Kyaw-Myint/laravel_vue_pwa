@@ -16,7 +16,7 @@ Before getting started, ensure that you have the following installed on your sys
 Clone the repository:
 
 ```
-https://github.com/Saw-Kyaw-Myint/laravel_vue_pwa.git
+git clone https://github.com/Saw-Kyaw-Myint/laravel_vue_pwa.git
 ```
 
 Change into the project directory:
