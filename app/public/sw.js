@@ -3,11 +3,7 @@ const API_URLS = ["/api/posts", "/api/post"];
 
 self.addEventListener("fetch", (event) => {
   const { request } = event;
-  if (API_URLS.some((url) => request.url.includes(url))) {
-    event.respondWith(fetchAndCache(request));
-  } else {
-    event.respondWith(cacheFirst(request));
-  }
+  event.respondWith(fetchAndCache(request));
 });
 
 async function fetchAndCache(request) {
@@ -23,9 +19,4 @@ async function fetchAndCache(request) {
       new Response(null, { status: 404, statusText: "Not found" })
     );
   }
-}
-
-async function cacheFirst(request) {
-  const cacheResponse = await caches.match(request);
-  return cacheResponse || fetch(request);
 }
