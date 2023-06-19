@@ -2,6 +2,17 @@
 import { register } from "register-service-worker";
 
 if (process.env.NODE_ENV === "production") {
+  register(`${process.env.BASE_URL}service-worker.js`, {
+    registered() {
+      console.log("Service worker has been registered.");
+    },
+    offline() {
+      console.log(
+        "No internet connection found. App is running in offline mode."
+      );
+    },
+  });
+
   register(`${process.env.BASE_URL}sw.js`, {
     ready() {
       console.log(
@@ -23,17 +34,6 @@ if (process.env.NODE_ENV === "production") {
     },
     error(error) {
       console.error("Error during service worker registration:", error);
-    },
-  });
-
-  register(`${process.env.BASE_URL}service-worker.js`, {
-    registered() {
-      console.log("Service worker has been registered.");
-    },
-    offline() {
-      console.log(
-        "No internet connection found. App is running in offline mode."
-      );
     },
   });
 }

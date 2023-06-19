@@ -56,7 +56,6 @@ onMounted(async () => {
       .get(`http://127.0.0.1:8000/api/post/edit/${route.params.id}`)
       .then((response) => {
         postForm.title = response.data.title;
-        console.log(response.data.description);
         postForm.description = response.data.description;
       });
   } catch (error) {
@@ -84,7 +83,6 @@ onMounted(async () => {
       />
       <p class="text-red-500">{{ errors?.title ? errors.title[0] : "" }}</p>
       <label for="" class="mb-2">Description</label>
-      {{ postForm.description }}
       <textarea
         class="description w-full bg-gray-100 sec p-3 h-60 border border-gray-300 outline-none"
         spellcheck="false"

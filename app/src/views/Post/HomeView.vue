@@ -3,7 +3,7 @@ import { onMounted, ref } from "vue";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const posts = ref(JSON.parse(localStorage.getItem("posts")) || []);
+const posts = ref([]);
 
 const getPosts = async () => {
   try {
