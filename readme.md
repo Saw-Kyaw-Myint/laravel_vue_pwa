@@ -66,9 +66,9 @@ Run the dev server (the output will give the api):
 php artisan serve
 ```
 
-Api is running at http://localhost:8000.
+Now **api** is running at http://localhost:8000.
 
-After completing above steps,Can run vue app.
+## Run Vue App
 
 Install Node dependencies:
 
